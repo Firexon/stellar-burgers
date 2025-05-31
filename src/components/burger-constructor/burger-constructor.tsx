@@ -1,36 +1,46 @@
 import { FC, useMemo } from 'react';
+import { useSelector } from '../../services/store';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const { bun, ingredients = [] } = useSelector((state) => state.constructor);
+  const orderRequest = useSelector((state) => state.order.request);
+  const orderModalData = useSelector((state) => state.order.orderData);
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const constructorItems = { bun, ingredients };
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!bun || orderRequest) return;
+    console.log('Заказ оформлен');
   };
-  const closeOrderModal = () => {};
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
+  const closeOrderModal = () => {
+    console.log('Закрыть модалку');
+  };
 
-  return null;
+  const price = useMemo(() => {
+    const bunPrice = bun?.price ? bun.price * 2 : 0;
+    const fillingPrice = (ingredients ?? []).reduce(
+      (sum: number, item: TConstructorIngredient) => sum + item.price,
+      0
+    );
+    return bunPrice + fillingPrice;
+  }, [bun, ingredients]);
+
+  // const price = useMemo(
+  //   () =>
+  //     (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+  //     constructorItems.ingredients.reduce(
+  //       (s: number, v: TConstructorIngredient) => s + v.price,
+  //       0
+  //     ),
+  //   [constructorItems]
+  // );
+
+  // return null;
+  console.log('constructorItems:', constructorItems);
+  console.log('price:', price);
 
   return (
     <BurgerConstructorUI
