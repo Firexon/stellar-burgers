@@ -10,7 +10,8 @@ import {
   selectOrderData,
   selectIngredientsList,
   fetchOrderThunk,
-  selectOrderLoading
+  selectOrderLoading,
+  fetchIngredientsThunk
 } from '@slices';
 
 type TIngredientsWithCount = {
@@ -25,6 +26,12 @@ export const OrderInfo: FC = () => {
   const orderData = useSelector(selectOrderData);
   const ingredients = useSelector(selectIngredientsList);
   const isLoading = useSelector(selectOrderLoading);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(fetchIngredientsThunk());
+    }
+  }, [dispatch, ingredients.length]);
 
   useEffect(() => {
     if (!orderData || orderData.number !== orderNumber) {
@@ -65,7 +72,7 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (!orderInfo) {
+  if (!orderInfo || isLoading) {
     return <Preloader />;
   }
 

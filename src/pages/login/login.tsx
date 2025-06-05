@@ -9,11 +9,14 @@ import {
   isAuthorizedSelector
 } from '@slices';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
 
   const error = useSelector(getUserErrorSelector);
   const isAuthorized = useSelector(isAuthorizedSelector);
@@ -27,9 +30,9 @@ export const Login: FC = () => {
 
   useEffect(() => {
     if (isAuthorized) {
-      navigate('/profile');
+      navigate(from, { replace: true });
     }
-  }, [isAuthorized, navigate]);
+  }, [isAuthorized, navigate, from]);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();

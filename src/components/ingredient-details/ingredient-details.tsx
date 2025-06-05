@@ -2,14 +2,15 @@ import { FC, useEffect } from 'react';
 import { useSelector, useDispatch } from '../../services/store';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import {
   selectIngredientDetailsData,
   selectIngredientDetailsLoading,
   selectIngredientDetailsError,
   setIngredientDetails,
   clearIngredientData,
-  selectIngredientsList
+  selectIngredientsList,
+  fetchIngredientsThunk
 } from '@slices';
 
 export const IngredientDetails: FC = () => {
@@ -22,6 +23,15 @@ export const IngredientDetails: FC = () => {
   const ingredientData = useSelector(selectIngredientDetailsData);
   const isLoading = useSelector(selectIngredientDetailsLoading);
   const error = useSelector(selectIngredientDetailsError);
+
+  const location = useLocation();
+  const isModal = location.state?.background;
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(fetchIngredientsThunk());
+    }
+  }, [dispatch, ingredients.length]);
 
   useEffect(() => {
     if (ingredient) {
@@ -44,5 +54,9 @@ export const IngredientDetails: FC = () => {
     return <p>{error}</p>;
   }
 
-  return <IngredientDetailsUI ingredientData={ingredientData || ingredient!} />;
+  return (
+    <div style={!isModal ? { maxWidth: 600, margin: '40px auto' } : undefined}>
+      <IngredientDetailsUI ingredientData={ingredientData || ingredient!} />
+    </div>
+  );
 };

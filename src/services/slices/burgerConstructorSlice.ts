@@ -40,24 +40,31 @@ const constructorSlice = createSlice({
     setBun(state, action: PayloadAction<TIngredient>) {
       state.bun = action.payload;
     },
-    addFilling: (state, action: PayloadAction<TIngredient>) => {
-      state.ingredients.push({ ...action.payload, id: uuidv4() });
+
+    addIngredient: {
+      reducer(state, action: PayloadAction<TConstructorIngredient>) {
+        state.ingredients.push(action.payload);
+      },
+      prepare(ingredient: TIngredient) {
+        return { payload: { ...ingredient, id: uuidv4() } };
+      }
     },
-    addIngredient(state, action: PayloadAction<TIngredient>) {
-      state.ingredients.push({ ...action.payload, id: uuidv4() });
-    },
+
     removeIngredient(state, action: PayloadAction<string>) {
       state.ingredients = state.ingredients.filter(
         (item) => item.id !== action.payload
       );
     },
+
     resetConstructor(state) {
       state.bun = null;
       state.ingredients = [];
     },
+
     resetOrderRequest(state) {
       state.orderRequest = false;
     },
+
     moveIngredientUp(state, action: PayloadAction<number>) {
       const index = action.payload;
       if (index > 0) {
@@ -117,7 +124,7 @@ export const selectOrderModalData = (state: RootState) =>
 
 export const {
   setBun,
-  addFilling,
+  // addFilling,
   addIngredient,
   removeIngredient,
   resetConstructor,
