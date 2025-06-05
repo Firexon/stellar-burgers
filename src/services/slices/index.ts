@@ -1,7 +1,7 @@
-export { constructorReducer } from './constructorSlice';
-export { ingredientsReducer } from './ingredientsSlice';
-export { userReducer } from './userSlice';
-export { feedsReducer } from './feedsSlice';
-export { profileOrdersReducer } from './profileOrdersSlice';
-export { default as orderReducer } from './orderSlice';
-export { default as ingredientDetailsReducer } from './ingredientDetailsSlice';
+export * from './burgerConstructorSlice';
+export * from './ingredientsSlice';
+export * from './feedsSlice';
+export * from './orderSlice';
+export * from './profileOrdersSlice';
+export * from './userSlice';
+export * from './ingredientDetailsSlice';

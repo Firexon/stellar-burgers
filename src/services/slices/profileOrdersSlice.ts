@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getOrdersApi } from '../../utils/burger-api';
 import { TOrder } from '../../utils/types';
 
+import { RootState } from '../store';
+
 type ProfileOrdersState = {
   orders: TOrder[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -43,3 +45,8 @@ const profileOrdersSlice = createSlice({
 });
 
 export const profileOrdersReducer = profileOrdersSlice.reducer;
+
+export const selectProfileOrders = (state: RootState) =>
+  state.profileOrders.orders;
+export const selectProfileOrdersStatus = (state: RootState) =>
+  state.profileOrders.status;

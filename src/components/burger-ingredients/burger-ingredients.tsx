@@ -1,23 +1,23 @@
 import { useEffect, useRef, useState, FC } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 import {
-  selectIngredients,
-  selectIngredientsStatus
-} from '../../services/selectors';
-import { TTabMode } from '../../utils/types';
+  fetchIngredientsThunk,
+  selectIngredientsList,
+  selectIngredientsState
+} from '@slices';
+import { TTabMode } from '@utils-types';
 import { useInView } from 'react-intersection-observer';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-// import { Preloader } from '../ui/preloader/preloader';
 
 export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(selectIngredients);
-  const status = useSelector(selectIngredientsStatus);
+  const ingredients = useSelector(selectIngredientsList);
 
   useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+    if (ingredients.length === 0) {
+      dispatch(fetchIngredientsThunk());
+    }
+  }, [dispatch, ingredients.length]);
 
   const buns = ingredients.filter((item) => item.type === 'bun');
   const sauces = ingredients.filter((item) => item.type === 'sauce');
@@ -47,9 +47,6 @@ export const BurgerIngredients: FC = () => {
     if (tab === 'sauce')
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  // if (status === 'loading') return <Preloader />;
-  // if (status === 'failed') return <p>Не удалось загрузить ингредиенты.</p>;
 
   return (
     <BurgerIngredientsUI

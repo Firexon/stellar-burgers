@@ -7,9 +7,14 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== 'production'
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        warnAfter: 1
+      }
+    })
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -3,12 +3,13 @@ import { useSelector } from '../../services/store';
 import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
+import { selectConstructor } from '@slices';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
 >(({ title, titleRef, ingredients }, ref) => {
-  const burgerConstructor = useSelector((state) => state.constructor);
+  const burgerConstructor = useSelector(selectConstructor);
 
   const ingredientsCounters = useMemo(() => {
     const { bun, ingredients: constructorIngredients = [] } = burgerConstructor;
@@ -22,7 +23,7 @@ export const IngredientsCategory = forwardRef<
       });
     }
 
-    if (bun?._id) counters[bun._id] = 2;
+    if (bun && bun._id) counters[bun._id] = 2;
 
     return counters;
   }, [burgerConstructor]);

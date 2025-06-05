@@ -1,22 +1,22 @@
-// src/services/slices/ingredientsSlice.ts
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '../../utils/burger-api';
 import { TIngredient } from '../../utils/types';
+import { RootState } from '../store';
 
 type IngredientsState = {
-  items: TIngredient[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  ingredients: TIngredient[];
+  isLoading: boolean;
   error: string | null;
 };
 
 const initialState: IngredientsState = {
-  items: [],
-  status: 'idle',
+  ingredients: [],
+  isLoading: false,
   error: null
 };
 
-export const fetchIngredients = createAsyncThunk(
-  'ingredients/fetchIngredients',
+export const fetchIngredientsThunk = createAsyncThunk(
+  'ingredients/fetch',
   async () => await getIngredientsApi()
 );
 
@@ -25,10 +25,24 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchIngredients.fulfilled, (state, action) => {
-      state.items = action.payload;
-    });
+    builder
+      .addCase(fetchIngredientsThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchIngredientsThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.ingredients = action.payload;
+      })
+      .addCase(fetchIngredientsThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message ?? 'Ошибка загрузки ингредиентов';
+      });
   }
 });
+
+export const selectIngredientsState = (state: RootState) => state.ingredients;
+export const selectIngredientsList = (state: RootState) =>
+  state.ingredients.ingredients;
 
 export const ingredientsReducer = ingredientsSlice.reducer;

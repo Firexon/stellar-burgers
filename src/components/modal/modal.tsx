@@ -9,14 +9,22 @@ const modalRoot = document.getElementById('modals');
 export const Modal: FC<TModalProps> = memo(({ title, onClose, children }) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      e.key === 'Escape' && onClose();
+      if (e.key === 'Escape') {
+        onClose();
+      }
     };
 
     document.addEventListener('keydown', handleEsc);
+
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };
   }, [onClose]);
+
+  if (!modalRoot) {
+    console.error('Modal element id="modals" not found');
+    return null;
+  }
 
   return ReactDOM.createPortal(
     <ModalUI title={title} onClose={onClose}>
