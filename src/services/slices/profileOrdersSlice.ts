@@ -4,7 +4,7 @@ import { TOrder } from '../../utils/types';
 
 import { RootState } from '../store';
 
-type ProfileOrdersState = {
+export type ProfileOrdersState = {
   orders: TOrder[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
