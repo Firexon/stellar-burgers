@@ -177,3 +177,4 @@ export const {
 } = userSlice.selectors;
 
 export const userReducer = userSlice.reducer;
+export const userInitialState = initialState;

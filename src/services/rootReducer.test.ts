@@ -1,14 +1,27 @@
 import rootReducer from './rootReducer';
 
+import {
+  constructorInitialState,
+  ingredientsInitialState,
+  ingredientDetailsInitialState,
+  userInitialState,
+  feedsInitialState,
+  profileOrdersInitialState,
+  orderInitialState
+} from './slices';
+
 describe('rootReducer', () => {
-  it('должен возвращать начальное состояние', () => {
+  it('должен возвращать начальное состояние всех слайсов', () => {
     const state = rootReducer(undefined, { type: '@@INIT' });
-    expect(state).toHaveProperty('burgerConstructor');
-    expect(state).toHaveProperty('ingredients');
-    expect(state).toHaveProperty('ingredientDetails');
-    expect(state).toHaveProperty('user');
-    expect(state).toHaveProperty('feeds');
-    expect(state).toHaveProperty('profileOrders');
-    expect(state).toHaveProperty('order');
+
+    expect(state).toEqual({
+      burgerConstructor: constructorInitialState,
+      ingredients: ingredientsInitialState,
+      ingredientDetails: ingredientDetailsInitialState,
+      user: userInitialState,
+      feeds: feedsInitialState,
+      profileOrders: profileOrdersInitialState,
+      order: orderInitialState
+    });
   });
 });

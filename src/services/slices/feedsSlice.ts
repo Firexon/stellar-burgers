@@ -53,6 +53,7 @@ const feedsSlice = createSlice({
 });
 
 export const feedsReducer = feedsSlice.reducer;
+export const feedsInitialState = initialState;
 
 // Селекторы
 export const selectFeeds = (state: RootState) => state.feeds;

@@ -45,6 +45,7 @@ const profileOrdersSlice = createSlice({
 });
 
 export const profileOrdersReducer = profileOrdersSlice.reducer;
+export const profileOrdersInitialState = initialState;
 
 export const selectProfileOrders = (state: RootState) =>
   state.profileOrders.orders;
