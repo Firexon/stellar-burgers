@@ -58,3 +58,4 @@ export const selectOrderError = (state: RootState) => state.order.error;
 export const { clearOrder } = orderSlice.actions;
 
 export const orderReducer = orderSlice.reducer;
+export const orderInitialState = initialState;

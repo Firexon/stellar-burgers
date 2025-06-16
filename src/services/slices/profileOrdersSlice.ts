@@ -4,7 +4,7 @@ import { TOrder } from '../../utils/types';
 
 import { RootState } from '../store';
 
-type ProfileOrdersState = {
+export type ProfileOrdersState = {
   orders: TOrder[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
@@ -45,6 +45,7 @@ const profileOrdersSlice = createSlice({
 });
 
 export const profileOrdersReducer = profileOrdersSlice.reducer;
+export const profileOrdersInitialState = initialState;
 
 export const selectProfileOrders = (state: RootState) =>
   state.profileOrders.orders;
