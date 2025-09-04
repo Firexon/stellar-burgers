@@ -124,7 +124,6 @@ export const selectOrderModalData = (state: RootState) =>
 
 export const {
   setBun,
-  // addFilling,
   addIngredient,
   removeIngredient,
   resetConstructor,
@@ -134,4 +133,5 @@ export const {
   setOrderModalData
 } = constructorSlice.actions;
 
+export const constructorInitialState = initialState;
 export const burgerConstructorReducer = constructorSlice.reducer;

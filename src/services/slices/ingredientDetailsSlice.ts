@@ -42,3 +42,4 @@ export const selectIngredientDetailsError = (state: RootState) =>
   state.ingredientDetails.error;
 
 export const ingredientDetailsReducer = ingredientDetailsSlice.reducer;
+export const ingredientDetailsInitialState = initialState;
